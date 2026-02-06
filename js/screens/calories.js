@@ -2,6 +2,7 @@
 
 import { getState, updateState } from "../state.js";
 import { getAppDayKey } from "../day.js";
+import { navigate } from "../router.js";
 
 const DEFAULT_FOODS = {
   breakfast: {
@@ -26,16 +27,18 @@ const DEFAULT_FOODS = {
   }
 };
 
-function renderFoodItem(meal, name, calories, value) {
+function renderFoodItem(meal, name, unitCalories, totalCalories = 0) {
   return `
     <div class="food">
       <span class="food-name">${name}</span>
+
       <div class="food-controls">
         <button data-action="dec" data-meal="${meal}" data-name="${name}">−</button>
-        <span class="food-value">${value || 0}</span>
+        <span class="food-value">${totalCalories}</span>
         <button data-action="inc" data-meal="${meal}" data-name="${name}">+</button>
       </div>
-      <span class="food-cal">${calories} cal</span>
+
+      <span class="food-cal">${unitCalories} cal</span>
     </div>
   `;
 }
@@ -47,11 +50,16 @@ export function renderCalories() {
 
   function renderMeal(meal) {
     const foods = DEFAULT_FOODS[meal];
-    const mealData = today.calories[meal];
+    const mealData = today.calories[meal] || {};
 
     const items = Object.entries(foods)
-      .map(([name, cal]) =>
-        renderFoodItem(meal, name, cal, mealData[name])
+      .map(([name, unitCalories]) =>
+        renderFoodItem(
+          meal,
+          name,
+          unitCalories,
+          mealData[name] ?? 0
+        )
       )
       .join("");
 
@@ -74,31 +82,28 @@ export function renderCalories() {
   `;
 }
 
-/**
- * Handle + / − clicks
- */
+/* ---------- EVENT HANDLING ---------- */
+
 document.addEventListener("click", async e => {
   const btn = e.target;
-  if (!btn.dataset || !btn.dataset.action) return;
+  if (!btn.dataset?.action) return;
 
   const { action, meal, name } = btn.dataset;
 
   await updateState(state => {
     const todayKey = getAppDayKey();
     const today = state.history[todayKey];
-    const foodCalories = DEFAULT_FOODS[meal][name];
+    const unitCalories = DEFAULT_FOODS[meal][name];
 
-    const current = today.calories[meal][name] || 0;
+    const current = today.calories[meal][name] ?? 0;
 
     if (action === "inc") {
-      today.calories[meal][name] = current + foodCalories;
-    }
-
-    if (action === "dec") {
-      today.calories[meal][name] = Math.max(
-        0,
-        current - foodCalories
-      );
+      today.calories[meal][name] = current + unitCalories;
+    } else if (action === "dec") {
+      today.calories[meal][name] = Math.max(0, current - unitCalories);
     }
   });
+
+  // 🔁 FORCE RE-RENDER
+  navigate("calories");
 });

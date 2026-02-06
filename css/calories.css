@@ -39,6 +39,23 @@
   gap: 0.5rem;
 }
 
+.food-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.food-value {
+  min-width: 2.5rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.food-cal {
+  font-size: 0.75rem;
+  color: #aaa;
+}
+
 .food-controls button {
   width: 2rem;
   height: 2rem;
@@ -47,14 +64,7 @@
   background: #222;
   color: #fff;
   font-size: 1.25rem;
-}
-
-.food-value {
-  min-width: 2rem;
-  text-align: center;
-}
-
-.food-cal {
-  font-size: 0.75rem;
-  color: #aaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
