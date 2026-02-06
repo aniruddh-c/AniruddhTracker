@@ -1,20 +1,6 @@
-// import { initState } from "./state.js";
-
-// console.log("Aniruddh Tracker loaded");
-
-// if ("serviceWorker" in navigator) {
-//   window.addEventListener("load", () => {
-//     navigator.serviceWorker.register("sw.js");
-//   });
-// }
-
-// (async () => {
-//   const state = await initState();
-//   console.log("App state loaded:", state);
-// })();
-
 import { initState } from "./state.js";
 import { navigate, onRouteChange } from "./router.js";
+import { renderHome } from "./screens/home.js";
 
 console.log("Aniruddh Tracker loaded");
 
@@ -31,7 +17,12 @@ if ("serviceWorker" in navigator) {
   const buttons = document.querySelectorAll("#bottom-nav button");
 
   function render(tab) {
-    screen.innerHTML = `<h2>${tab.toUpperCase()}</h2>`;
+    if (tab === "home") {
+      screen.innerHTML = renderHome();
+    } else {
+      screen.innerHTML = `<h2>${tab.toUpperCase()}</h2>`;
+    }
+
     buttons.forEach(btn =>
       btn.classList.toggle("active", btn.dataset.tab === tab)
     );
@@ -45,6 +36,3 @@ if ("serviceWorker" in navigator) {
 
   render("home");
 })();
-
-
-

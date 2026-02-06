@@ -1,0 +1,52 @@
+.home h1 {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.home .date {
+  color: #aaa;
+  margin-bottom: 16px;
+}
+
+.arc-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.arc {
+  flex: 1;
+  text-align: center;
+}
+
+.arc-text {
+  margin-top: -20px;
+}
+
+.arc-value {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.arc-label {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.weight-card {
+  background: #111;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.weight-label {
+  color: #aaa;
+  font-size: 12px;
+}
+
+.weight-value {
+  font-size: 24px;
+  font-weight: bold;
+}
