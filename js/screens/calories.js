@@ -59,6 +59,7 @@ export function renderCalories() {
     .map(([name, unitCalories]) => {
         const count = mealData[name] ?? 0;
         mealTotal += count * unitCalories;
+        dayTotal += mealTotal;
         return renderFoodItem(meal, name, unitCalories, count);
     })
     .join("");
@@ -74,15 +75,16 @@ export function renderCalories() {
   `;
 }
 
+  let dayTotal = 0;
   return `
-    <section class="calories">
-      <h1>Calories</h1>
-      ${renderMeal("breakfast")}
-      ${renderMeal("lunch")}
-      ${renderMeal("snacks")}
-      ${renderMeal("dinner")}
-    </section>
-  `;
+  <section class="calories" data-day-total="${dayTotal}">
+    <h1>Calories</h1>
+    ${renderMeal("breakfast")}
+    ${renderMeal("lunch")}
+    ${renderMeal("snacks")}
+    ${renderMeal("dinner")}
+  </section>
+`;
 }
 
 /* ---------- EVENT HANDLING ---------- */
