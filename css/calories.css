@@ -96,3 +96,14 @@
   color: #aaa;
   font-weight: normal;
 }
+
+.add-food-btn {
+  margin-top: 0.5rem;
+  background: none;
+  border: 1px dashed #333;
+  color: #aaa;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  font-size: 0.75rem;
+}

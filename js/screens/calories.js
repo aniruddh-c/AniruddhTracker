@@ -44,35 +44,50 @@ function renderFoodItem(meal, name, unitCalories, count = 0) {
     </div>
   `;
 }
+
+function renderAddFoodButton(meal) {
+  return `
+    <button class="add-food-btn" data-add-food="${meal}">
+      + Add food
+    </button>
+  `;
+}
+
 export function renderCalories() {
   const state = getState();
   const todayKey = getAppDayKey();
   const today = state.history[todayKey];
 
   function renderMeal(meal) {
-  const foods = DEFAULT_FOODS[meal];
+  const defaultFoods = DEFAULT_FOODS[meal];
+  const customFoods = state.customFoods[meal] || {};
   const mealData = today.calories[meal] || {};
 
   let mealTotal = 0;
 
-    const items = Object.entries(foods)
-    .map(([name, unitCalories]) => {
-        const count = mealData[name] ?? 0;
-        mealTotal += count * unitCalories;
-        dayTotal += mealTotal;
-        return renderFoodItem(meal, name, unitCalories, count);
-    })
-    .join("");
+    const items = [
+  ...Object.entries(defaultFoods).map(([name, unitCalories]) => {
+    const count = mealData[name] ?? 0;
+    mealTotal += count * unitCalories;
+    return renderFoodItem(meal, name, unitCalories, count);
+  }),
+  ...customFoods.map(food => {
+    const count = mealData[food.name] ?? 0;
+    mealTotal += count * food.calories;
+    return renderFoodItem(meal, food.name, food.calories, count);
+  })
+].join("");
 
   return `
-    <div class="meal">
-      <h2>
-        ${meal[0].toUpperCase() + meal.slice(1)}
-        <span class="meal-total">${mealTotal} cal</span>
-      </h2>
-      <div class="meal-items">${items}</div>
-    </div>
-  `;
+  <div class="meal">
+    <h2>
+      ${meal[0].toUpperCase() + meal.slice(1)}
+      <span class="meal-total">${mealTotal} cal</span>
+    </h2>
+    <div class="meal-items">${items}</div>
+    ${renderAddFoodButton(meal)}
+  </div>
+`;
 }
 
   let dayTotal = 0;
@@ -109,6 +124,25 @@ document.addEventListener("click", async e => {
   });
 
   // Force re-render
+  navigate("home");
+  navigate("calories");
+});
+
+document.addEventListener("click", async e => {
+  const meal = e.target.dataset?.addFood;
+  if (!meal) return;
+
+  const name = prompt("Food name:");
+  if (!name) return;
+
+  const calories = Number(prompt("Calories per unit:"));
+  if (!calories || calories <= 0) return;
+
+  await updateState(state => {
+    state.customFoods[meal].push({ name, calories });
+  });
+
+  // Re-render
   navigate("home");
   navigate("calories");
 });

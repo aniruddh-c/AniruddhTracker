@@ -22,7 +22,13 @@ function getDefaultState() {
     },
     history: {},
     weight: [],
-    habits: []
+    habits: [],
+    customFoods: {
+      breakfast: [],
+      lunch: [],
+      snacks: [],
+      dinner: []
+    }
   };
 }
 
@@ -32,6 +38,13 @@ function getDefaultState() {
 export async function initState() {
   const stored = await loadState();
   state = stored || getDefaultState();
+
+  state.customFoods ??= {
+    breakfast: [],
+    lunch: [],
+    snacks: [],
+    dinner: []
+  };
 
   // Ensure today exists
   const todayKey = getAppDayKey();
