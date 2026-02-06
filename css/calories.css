@@ -1,0 +1,21 @@
+.calories h1 {
+  font-size: 1.375rem;
+  margin-bottom: 1rem;
+}
+
+.meal {
+  background: #111;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.meal h2 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.meal-items {
+  color: #777;
+  font-size: 0.875rem;
+}
