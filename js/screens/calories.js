@@ -27,14 +27,14 @@ const DEFAULT_FOODS = {
   }
 };
 
-function renderFoodItem(meal, name, unitCalories, totalCalories = 0) {
+function renderFoodItem(meal, name, unitCalories, count = 0) {
   return `
     <div class="food">
       <span class="food-name">${name}</span>
 
-      <div class="food-controls">
+      <div class="counter-box">
         <button data-action="dec" data-meal="${meal}" data-name="${name}">−</button>
-        <span class="food-value">${totalCalories}</span>
+        <span class="counter-value">${count}</span>
         <button data-action="inc" data-meal="${meal}" data-name="${name}">+</button>
       </div>
 
@@ -93,17 +93,17 @@ document.addEventListener("click", async e => {
   await updateState(state => {
     const todayKey = getAppDayKey();
     const today = state.history[todayKey];
-    const unitCalories = DEFAULT_FOODS[meal][name];
 
     const current = today.calories[meal][name] ?? 0;
 
     if (action === "inc") {
-      today.calories[meal][name] = current + unitCalories;
+      today.calories[meal][name] = current + 1;
     } else if (action === "dec") {
-      today.calories[meal][name] = Math.max(0, current - unitCalories);
+      today.calories[meal][name] = Math.max(0, current - 1);
     }
   });
 
-  // 🔁 FORCE RE-RENDER
+  // Force re-render
+  navigate("home");
   navigate("calories");
 });
