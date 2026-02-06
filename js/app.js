@@ -1,16 +1,29 @@
+// console.log("Aniruddh Tracker loaded");
+
+// // Register Service Worker
+// if ("serviceWorker" in navigator) {
+//   window.addEventListener("load", () => {
+//     navigator.serviceWorker
+//       .register("sw.js")
+//       .then(() => console.log("Service Worker registered"))
+//       .catch(err => console.error("SW registration failed", err));
+//   });
+// }
+
+
+import { initState } from "./state.js";
+
 console.log("Aniruddh Tracker loaded");
 
-// Register Service Worker
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("sw.js")
-      .then(() => console.log("Service Worker registered"))
-      .catch(err => console.error("SW registration failed", err));
+    navigator.serviceWorker.register("sw.js");
   });
 }
 
-import { getAppDayKey, formatDateForUI } from "./day.js";
+(async () => {
+  const state = await initState();
+  console.log("App state loaded:", state);
+})();
 
-console.log("Day key:", getAppDayKey());
-console.log("UI date:", formatDateForUI());
+
