@@ -9,3 +9,8 @@ if ("serviceWorker" in navigator) {
       .catch(err => console.error("SW registration failed", err));
   });
 }
+
+import { getAppDayKey, formatDateForUI } from "./day.js";
+
+console.log("Day key:", getAppDayKey());
+console.log("UI date:", formatDateForUI());
