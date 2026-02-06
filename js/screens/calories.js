@@ -32,44 +32,47 @@ function renderFoodItem(meal, name, unitCalories, count = 0) {
     <div class="food">
       <span class="food-name">${name}</span>
 
+      <span class="food-cal">
+        ${unitCalories} cal
+      </span>
+
       <div class="counter-box">
         <button data-action="dec" data-meal="${meal}" data-name="${name}">−</button>
         <span class="counter-value">${count}</span>
         <button data-action="inc" data-meal="${meal}" data-name="${name}">+</button>
       </div>
-
-      <span class="food-cal">${unitCalories} cal</span>
     </div>
   `;
 }
-
 export function renderCalories() {
   const state = getState();
   const todayKey = getAppDayKey();
   const today = state.history[todayKey];
 
   function renderMeal(meal) {
-    const foods = DEFAULT_FOODS[meal];
-    const mealData = today.calories[meal] || {};
+  const foods = DEFAULT_FOODS[meal];
+  const mealData = today.calories[meal] || {};
+
+  let mealTotal = 0;
 
     const items = Object.entries(foods)
-      .map(([name, unitCalories]) =>
-        renderFoodItem(
-          meal,
-          name,
-          unitCalories,
-          mealData[name] ?? 0
-        )
-      )
-      .join("");
+    .map(([name, unitCalories]) => {
+        const count = mealData[name] ?? 0;
+        mealTotal += count * unitCalories;
+        return renderFoodItem(meal, name, unitCalories, count);
+    })
+    .join("");
 
-    return `
-      <div class="meal">
-        <h2>${meal[0].toUpperCase() + meal.slice(1)}</h2>
-        <div class="meal-items">${items}</div>
-      </div>
-    `;
-  }
+  return `
+    <div class="meal">
+      <h2>
+        ${meal[0].toUpperCase() + meal.slice(1)}
+        <span class="meal-total">${mealTotal} cal</span>
+      </h2>
+      <div class="meal-items">${items}</div>
+    </div>
+  `;
+}
 
   return `
     <section class="calories">

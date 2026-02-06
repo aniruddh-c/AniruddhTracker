@@ -35,6 +35,13 @@
   font-size: 0.875rem;
 }
 
+.food-total {
+  font-size: 0.75rem;
+  color: #aaa;
+  min-width: 4rem;
+  text-align: right;
+}
+
 /* ---------- COUNTER BOX (− 0 +) ---------- */
 
 .counter-box {
@@ -76,4 +83,16 @@
   color: #aaa;
   min-width: 4rem;
   text-align: right;
+}
+
+.meal h2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.meal-total {
+  font-size: 0.75rem;
+  color: #aaa;
+  font-weight: normal;
 }
