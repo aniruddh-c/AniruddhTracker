@@ -1,18 +1,21 @@
+/* home.css */
+
 .home h1 {
-  font-size: 22px;
-  margin-bottom: 4px;
+  font-size: 1.375rem; /* ~22px */
+  margin-bottom: 0.25rem;
 }
 
 .home .date {
   color: #aaa;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
 }
 
 .arc-row {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .arc {
@@ -21,32 +24,39 @@
 }
 
 .arc-text {
-  margin-top: -20px;
+  margin-top: -1.25rem; /* visual overlap – px-to-rem converted */
 }
 
 .arc-value {
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
 .arc-label {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: #aaa;
 }
 
 .weight-card {
   background: #111;
-  padding: 16px;
-  border-radius: 12px;
+  padding: 1rem;
+  border-radius: 0.75rem;
   text-align: center;
 }
 
 .weight-label {
   color: #aaa;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .weight-value {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Responsive SVG */
+.arc-svg {
+  width: 100%;
+  max-width: 10rem; /* ~160px */
+  height: auto;
 }

@@ -1,12 +1,14 @@
+/* nav.css */
+
 #bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 56px;
+  height: 3.5rem; /* ~56px */
   background: #111;
   display: flex;
-  border-top: 1px solid #222;
+  border-top: 1px solid #222; /* keep px for hairline precision */
 }
 
 #bottom-nav button {
@@ -14,7 +16,8 @@
   background: none;
   border: none;
   color: #888;
-  font-size: 14px;
+  font-size: 0.875rem; /* ~14px */
+  touch-action: manipulation;
 }
 
 #bottom-nav button.active {
