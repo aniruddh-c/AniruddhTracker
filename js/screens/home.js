@@ -3,6 +3,7 @@
 import { getState } from "../state.js";
 import { createSemiArc } from "../ui/arcs.js";
 import { formatDateForUI } from "../day.js";
+import { getAppDayKey } from "../day.js";
 
 /*
   Default food calories (must match calories.js)
@@ -106,8 +107,9 @@ function renderHabits(state, today) {
 
 export function renderHome() {
   const state = getState();
-  const todayKey = Object.keys(state.history).slice(-1)[0];
+  const todayKey = getAppDayKey();
   const today = state.history[todayKey];
+
 
   /* ---- CALORIES ---- */
   const caloriesEaten = computeCaloriesEaten(state, today);
