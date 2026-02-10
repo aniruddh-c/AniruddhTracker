@@ -5,8 +5,7 @@ import { createSemiArc } from "../ui/arcs.js";
 import { formatDateForUI } from "../day.js";
 
 /*
-  Default food calories
-  (Must match calories.js)
+  Default food calories (must match calories.js)
 */
 const DEFAULT_FOOD_CALORIES = {
   breakfast: {
@@ -40,7 +39,7 @@ function getGreeting(name) {
 
 /**
  * Compute total calories eaten today
- * Includes BOTH default and custom foods
+ * Includes default + custom foods
  */
 function computeCaloriesEaten(state, today) {
   let total = 0;
@@ -48,14 +47,14 @@ function computeCaloriesEaten(state, today) {
   for (const meal in today.calories) {
     const mealCounts = today.calories[meal] || {};
 
-    /* ---- DEFAULT FOODS ---- */
-    const defaultFoods = DEFAULT_FOOD_CALORIES[meal] || {};
-    for (const foodName in defaultFoods) {
-      const count = mealCounts[foodName] ?? 0;
-      total += count * defaultFoods[foodName];
+    // Default foods
+    const defaults = DEFAULT_FOOD_CALORIES[meal] || {};
+    for (const food in defaults) {
+      const count = mealCounts[food] ?? 0;
+      total += count * defaults[food];
     }
 
-    /* ---- CUSTOM FOODS ---- */
+    // Custom foods
     const customFoods = state.customFoods?.[meal] || [];
     for (const food of customFoods) {
       const count = mealCounts[food.name] ?? 0;
@@ -71,11 +70,17 @@ export function renderHome() {
   const todayKey = Object.keys(state.history).slice(-1)[0];
   const today = state.history[todayKey];
 
+  /* ---- CALORIES ---- */
   const caloriesEaten = computeCaloriesEaten(state, today);
   const calorieTarget = state.settings.calorieTarget;
   const caloriesLeft = Math.max(0, calorieTarget - caloriesEaten);
 
+  /* ---- STEPS ---- */
   const steps = today.steps || 0;
+  const stepTarget = state.settings.stepTarget;
+  const stepsLeft = Math.max(0, stepTarget - steps);
+
+  /* ---- WEIGHT ---- */
   const latestWeight =
     state.weight.length > 0
       ? state.weight[state.weight.length - 1].value
@@ -96,8 +101,8 @@ export function renderHome() {
 
         ${createSemiArc({
           value: steps,
-          max: state.settings.stepTarget,
-          label: "Steps",
+          max: stepTarget,
+          label: `${stepsLeft} left`,
           color: "#7c4dff"
         })}
       </div>
