@@ -36,6 +36,7 @@
   color: #aaa;
 }
 
+/* Buttons */
 .steps-edit-btn,
 .weight-add-btn {
   width: 100%;
@@ -45,12 +46,36 @@
   background: #222;
   color: #fff;
   font-size: 0.875rem;
+  margin-bottom: 0.75rem;
 }
 
 .steps-edit-btn:active,
 .weight-add-btn:active {
   background: #333;
 }
+
+/* ---- STEPS GRAPH ---- */
+
+.steps-graph-card {
+  background: #0e0e0e;
+  border-radius: 0.75rem;
+  padding: 0.5rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.steps-graph-placeholder {
+  height: 160px;
+  border-radius: 0.75rem;
+  background: #0e0e0e;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+/* ---- WEIGHT GRAPH ---- */
 
 .weight-graph-placeholder {
   height: 160px;
