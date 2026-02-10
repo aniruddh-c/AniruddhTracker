@@ -30,7 +30,7 @@ const DEFAULT_FOODS = {
 function renderFoodItem(meal, name, unitCalories, count = 0) {
   return `
     <div class="food">
-      <span class="food-name">${name}</span>
+      <span class="food-name editable" data-edit-food="${meal}|${name}">${name}</span>
 
       <span class="food-cal">
         ${unitCalories} cal
@@ -139,10 +139,55 @@ document.addEventListener("click", async e => {
   if (!calories || calories <= 0) return;
 
   await updateState(state => {
+    const exists = state.customFoods[meal].some(
+      f => f.name.toLowerCase() === name.toLowerCase()
+    );
+
+    if (exists) {
+      alert("Food already exists for this meal");
+      return;
+    }
+
     state.customFoods[meal].push({ name, calories });
   });
 
   // Re-render
+  navigate("home");
+  navigate("calories");
+});
+
+document.addEventListener("click", async e => {
+  const data = e.target.dataset?.editFood;
+  if (!data) return;
+
+  const [meal, oldName] = data.split("|");
+  const state = getState();
+
+  const food = state.customFoods[meal]?.find(f => f.name === oldName);
+  if (!food) return; // default foods ignored
+
+  const newName = prompt("Edit food name:", food.name);
+  if (!newName) return;
+
+  const newCalories = Number(
+    prompt("Calories per unit:", food.calories)
+  );
+  if (!newCalories || newCalories <= 0) return;
+
+  const confirmDelete = confirm("Delete this food?");
+  if (confirmDelete) {
+    await updateState(state => {
+      state.customFoods[meal] = state.customFoods[meal].filter(
+        f => f.name !== oldName
+      );
+    });
+  } else {
+    await updateState(state => {
+      food.name = newName;
+      food.calories = newCalories;
+    });
+  }
+
   navigate("home");
   navigate("calories");
 });

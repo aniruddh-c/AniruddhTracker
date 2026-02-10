@@ -107,3 +107,12 @@
   width: 100%;
   font-size: 0.75rem;
 }
+
+.food-name.editable {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.food-name.editable:active {
+  opacity: 0.7;
+}
