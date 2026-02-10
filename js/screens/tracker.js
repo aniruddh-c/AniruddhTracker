@@ -2,6 +2,7 @@
 
 import { getState } from "../state.js";
 import { getAppDayKey } from "../day.js";
+import { openDayModal } from "../ui/dayModal.js";
 
 /* ---------- CONSTANTS ---------- */
 
@@ -109,7 +110,7 @@ function renderCalendar(type, year, month) {
   const cells = getMonthMatrix(year, month);
 
   return `
-    <div class="calendar-card">
+    <div class="calendar-card" data-type="${type}">
       <div class="calendar-header">
         <button class="cal-nav" data-cal="${type}" data-dir="-1">‹</button>
         <div class="cal-month">${MONTHS[month]} ${year}</div>
@@ -164,43 +165,6 @@ export function renderTracker() {
   `;
 }
 
-let longPressTimer = null;
-
-document.addEventListener("pointerdown", e => {
-  const cell = e.target.closest(".cal-cell");
-  if (!cell || cell.classList.contains("empty")) return;
-
-  const dayEl = cell.querySelector(".cal-day");
-  if (!dayEl) return;
-
-  const day = Number(dayEl.textContent);
-  const calendar = cell.closest(".calendar-card");
-  if (!calendar) return;
-
-  const type = calendar.previousElementSibling?.textContent
-    ?.toLowerCase()
-    .includes("habit")
-    ? "habits"
-    : "health";
-
-  const monthLabel = calendar.querySelector(".cal-month").textContent;
-  const [monthName, year] = monthLabel.split(" ");
-  const month = MONTHS.indexOf(monthName);
-
-  const dayKey = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-
-  const todayKey = getAppDayKey();
-  if (dayKey >= todayKey) return; // no future or today
-
-  longPressTimer = setTimeout(() => {
-    openEditModal(dayKey, type);
-  }, 600);
-});
-
-document.addEventListener("pointerup", () => {
-  clearTimeout(longPressTimer);
-});
-
 document.addEventListener("click", e => {
   const btn = e.target.closest(".cal-nav");
   if (!btn) return;
@@ -221,4 +185,38 @@ document.addEventListener("click", e => {
   }
 
   document.getElementById("screen").innerHTML = renderTracker();
+});
+
+let longPressTimer = null;
+
+document.addEventListener("pointerdown", e => {
+  const cell = e.target.closest(".cal-cell");
+  if (!cell || cell.classList.contains("empty")) return;
+
+  const dayEl = cell.querySelector(".cal-day");
+  if (!dayEl) return;
+
+  const calendar = cell.closest(".calendar-card");
+  if (!calendar) return;
+
+  const day = Number(dayEl.textContent);
+
+  const monthLabel = calendar.querySelector(".cal-month").textContent;
+  const [monthName, year] = monthLabel.split(" ");
+  const month = MONTHS.indexOf(monthName);
+
+  const dayKey = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+  const todayKey = getAppDayKey();
+
+  if (dayKey >= todayKey) return;
+
+  const type = calendar.dataset.type; // "habits" or "health"
+
+  longPressTimer = setTimeout(() => {
+    openDayModal(dayKey, type);
+  }, 600);
+});
+
+document.addEventListener("pointerup", () => {
+  clearTimeout(longPressTimer);
 });

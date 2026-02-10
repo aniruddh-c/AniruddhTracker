@@ -4,9 +4,16 @@ import { getState, updateState } from "../state.js";
 
 export function openDayModal(dayKey, type) {
   const state = getState();
-  const day = state.history[dayKey];
+    const day = state.history[dayKey];
 
-  if (!day) return;
+    // If no data exists at all for this day
+    if (!day || (
+    type === "habits" &&
+    (!state.habits.length || !day.habits || Object.keys(day.habits).length === 0)
+    )) {
+    showEmptyModal(dayKey);
+    return;
+    }
 
   const modal = document.createElement("div");
   modal.className = "day-modal-backdrop";
@@ -97,4 +104,30 @@ function computeCalories(day, state) {
     }
   }
   return total;
+}
+
+function showEmptyModal(dayKey) {
+  const modal = document.createElement("div");
+  modal.className = "day-modal-backdrop";
+
+  modal.innerHTML = `
+    <div class="day-modal-card" role="dialog">
+      <div class="day-modal-header">
+        <div class="day-modal-title">${dayKey}</div>
+      </div>
+
+      <div class="day-modal-body">
+        <p style="color:#777;font-size:0.875rem;">
+
+          No data available for this date.
+        </p>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  modal.addEventListener("click", e => {
+    if (e.target === modal) modal.remove();
+  });
 }
