@@ -5,17 +5,50 @@
   margin-bottom: 1rem;
 }
 
+.tracker-section {
+  margin-bottom: 2rem;
+}
+
+.tracker-title {
+  text-align: center;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  color: #aaa;
+  margin-bottom: 0.5rem;
+}
+
+/* ---------- CALENDAR CARD ---------- */
+
 .calendar-card {
   background: #111;
   border-radius: 0.75rem;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
+  padding: 0.75rem;
 }
 
-.calendar-card h2 {
-  font-size: 1rem;
-  margin-bottom: 0.75rem;
+/* ---------- HEADER ---------- */
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
+
+.cal-month {
+  font-size: 0.875rem;
+  color: #fff;
+}
+
+.cal-nav {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 1.25rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+/* ---------- GRID ---------- */
 
 .calendar-grid {
   display: grid;
@@ -24,17 +57,18 @@
 }
 
 .cal-header {
-  font-size: 0.625rem;
   text-align: center;
-  color: #777;
+  font-size: 0.625rem;
+  color: #666;
 }
+
+/* ---------- DAY CELLS ---------- */
 
 .cal-cell {
   background: #0e0e0e;
   border-radius: 0.5rem;
   aspect-ratio: 1 / 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -48,8 +82,13 @@
   color: #aaa;
 }
 
-.cal-mark {
-  font-size: 0.75rem;
+/* ---------- FUTURE STATES ---------- */
+
+.cal-cell.success {
+  background: #c62828;
+}
+
+.cal-cell.failure .cal-day {
   color: #555;
-  margin-top: 2px;
+  text-decoration: line-through;
 }
