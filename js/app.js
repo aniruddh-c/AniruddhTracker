@@ -112,3 +112,29 @@ document.addEventListener("click", async e => {
   navigate("home");
   navigate("steps");
 });
+
+document.addEventListener("click", async e => {
+  if (!e.target.dataset?.addWeight) return;
+
+  const input = prompt("Enter your current weight (kg):");
+  if (input === null) return;
+
+  const value = Number(input);
+  if (!Number.isFinite(value) || value <= 0) {
+    alert("Please enter a valid positive number");
+    return;
+  }
+
+  await updateState(state => {
+    const dayKey = getAppDayKey();
+
+    state.weight.push({
+      date: dayKey,
+      value
+    });
+  });
+
+  // Refresh UI
+  navigate("home");
+  navigate("weight");
+});

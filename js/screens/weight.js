@@ -23,7 +23,7 @@ export function renderWeight() {
         Weight trend will appear here
       </div>
 
-      <button class="weight-add-btn" disabled>
+      <button class="weight-add-btn" data-add-weight="true">
         Add weight
       </button>
     </section>
