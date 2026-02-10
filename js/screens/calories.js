@@ -3,6 +3,7 @@
 import { getState, updateState } from "../state.js";
 import { getAppDayKey } from "../day.js";
 import { navigate } from "../router.js";
+import { renderHeader } from "../ui/header.js";
 
 const DEFAULT_FOODS = {
   breakfast: {
@@ -98,7 +99,7 @@ export function renderCalories() {
   let dayTotal = 0;
   return `
   <section class="calories" data-day-total="${dayTotal}">
-    <h1>Calories</h1>
+    ${renderHeader("Calories")}
     ${renderMeal("breakfast")}
     ${renderMeal("lunch")}
     ${renderMeal("snacks")}

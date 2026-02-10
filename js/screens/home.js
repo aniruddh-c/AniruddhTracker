@@ -4,6 +4,7 @@ import { getState } from "../state.js";
 import { createSemiArc } from "../ui/arcs.js";
 import { formatDateForUI } from "../day.js";
 import { getAppDayKey } from "../day.js";
+import { renderHeader } from "../ui/header.js";
 
 /*
   Default food calories (must match calories.js)
@@ -30,6 +31,16 @@ const DEFAULT_FOOD_CALORIES = {
     Chicken: 250
   }
 };
+
+function formatHeaderDate() {
+  const today = new Date();
+
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric"
+  }).format(today);
+}
 
 function getGreeting(name) {
   const hour = new Date().getHours();
@@ -129,8 +140,11 @@ export function renderHome() {
 
   return `
     <section class="home">
-      <h1>${getGreeting(state.settings.name)}</h1>
-      <p class="date">${formatDateForUI()}</p>
+      ${renderHeader(
+    getGreeting(state.settings.name),
+    formatHeaderDate(),
+    { noCaps: true }
+  )}
 
       <div class="arc-row">
         ${createSemiArc({

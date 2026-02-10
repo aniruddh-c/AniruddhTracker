@@ -2,13 +2,14 @@
 
 import { getState, updateState } from "../state.js";
 import { getAppDayKey } from "../day.js";
+import { renderHeader } from "../ui/header.js";
 
 export function renderSettings() {
   const state = getState();
 
   return `
     <section class="settings">
-      <h1>Settings</h1>
+      ${renderHeader("Settings")}
 
       <!-- PROFILE -->
       <div class="settings-card">

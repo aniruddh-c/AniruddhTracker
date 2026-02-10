@@ -2,6 +2,7 @@
 
 import { getState } from "../state.js";
 import { getAppDayKey, formatDateForUI } from "../day.js";
+import { renderHeader } from "../ui/header.js";
 
 /* ---------- GRAPH HELPERS ---------- */
 
@@ -143,7 +144,7 @@ export function renderFitness() {
 
   return `
     <section class="fitness">
-      <h1>Fitness</h1>
+      ${renderHeader("Fitness")}
 
       <!-- STEPS SECTION -->
       <div class="fitness-section">

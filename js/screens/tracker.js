@@ -3,6 +3,7 @@
 import { getState } from "../state.js";
 import { getAppDayKey } from "../day.js";
 import { openDayModal } from "../ui/dayModal.js";
+import { renderHeader } from "../ui/header.js";
 
 /* ---------- CONSTANTS ---------- */
 
@@ -150,7 +151,7 @@ export function renderTracker() {
     healthMonth ??= { year: now.getFullYear(), month: now.getMonth() };
   return `
     <section class="tracker">
-      <h1>Tracker</h1>
+      ${renderHeader("Tracker")}
 
       <div class="tracker-section">
         <div class="tracker-title">HABIT TRACKER</div>
