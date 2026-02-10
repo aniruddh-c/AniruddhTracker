@@ -208,14 +208,6 @@ body {
   text-align: center;
 }
 
-.app-header-title {
-  margin-top: 0.75rem;
-  font-size: 3rem;
-  letter-spacing: 0.12em;
-  font-weight: 600;
-  color: #fff;
-}
-
 .app-header-subtitle {
   margin-top: 0.25rem;
   font-size: 0.75rem;
@@ -223,7 +215,7 @@ body {
 }
 
 .app-header-title {
-  font-size: 0.875rem;
+  font-size: 1rem;
   letter-spacing: 0.12em;
   font-weight: 600;
   color: #fff;
