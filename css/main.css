@@ -190,18 +190,19 @@ body {
   background: #222222;
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #2a2a2a;
-  box-shadow: 0 1px 0 rgba(255,255,255,0.05);
-}
 
-.app-header {
+  /* Full-width & full-top override */
   margin-left: -1rem;
   margin-right: -1rem;
+  margin-top: -1rem;
+  margin-bottom: 2rem;
 }
 
-/* Space between header bar and page content */
+
+/* Space between header bar and page content
 .app-header + section {
   margin-top: 2rem;
-}
+} */
 
 .app-header-content {
   text-align: center;
