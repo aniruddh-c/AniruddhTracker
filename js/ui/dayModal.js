@@ -2,6 +2,18 @@ import { getState, updateState } from "../state.js";
 
 /* ---------- OPEN MODAL ---------- */
 
+function formatDayKeyForUI(dayKey) {
+  const [year, month, day] = dayKey.split("-").map(Number);
+
+  const date = new Date(year, month - 1, day);
+
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  }).format(date);
+}
+
 export function openDayModal(dayKey, type) {
   const state = getState();
     const day = state.history[dayKey];
@@ -21,7 +33,7 @@ export function openDayModal(dayKey, type) {
   modal.innerHTML = `
     <div class="day-modal-card" role="dialog">
       <div class="day-modal-header">
-        <div class="day-modal-title">${dayKey}</div>
+        <div class="day-modal-title">${formatDayKeyForUI(dayKey)}</div>
         <button class="day-modal-edit">Edit</button>
       </div>
 
@@ -113,7 +125,7 @@ function showEmptyModal(dayKey) {
   modal.innerHTML = `
     <div class="day-modal-card" role="dialog">
       <div class="day-modal-header">
-        <div class="day-modal-title">${dayKey}</div>
+        <div class="day-modal-title">${formatDayKeyForUI(dayKey)}</div>
       </div>
 
       <div class="day-modal-body">

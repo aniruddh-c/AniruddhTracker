@@ -109,3 +109,26 @@
   color: #555;
 }
 
+/* Prevent text selection in calendar UI */
+.calendar-card,
+.calendar-card * {
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Prevent selection in modal display text */
+.day-modal-card,
+.day-modal-card * {
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+/* BUT allow selection in inputs (important) */
+.day-modal-card input,
+.day-modal-card textarea {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
