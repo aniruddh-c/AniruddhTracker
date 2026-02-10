@@ -5,9 +5,10 @@ import { renderCalories } from "./screens/calories.js";
 import { renderSteps } from "./screens/steps.js";
 import { updateState } from "./state.js";
 import { getAppDayKey } from "./day.js";
+import { renderWeight } from "./screens/weight.js";
 
 
-console.log("Aniruddh Tracker loaded");
+console.log("Aniruddh's Tracker loaded");
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -29,6 +30,8 @@ if ("serviceWorker" in navigator) {
       screen.innerHTML = renderCalories();
     } else if (tab === "steps") {
       screen.innerHTML = renderSteps();
+    } else if (tab === "weight") {
+      screen.innerHTML = renderWeight();
     } else {
       screen.innerHTML = `<h2>${tab.toUpperCase()}</h2>`;
     }
