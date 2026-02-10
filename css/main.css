@@ -208,18 +208,19 @@ body {
   text-align: center;
 }
 
-.app-header-subtitle {
-  margin-top: 0.25rem;
-  font-size: 0.75rem;
-  color: #aaa;
-}
-
 .app-header-title {
-  font-size: 1rem;
+  margin-top: 0.75rem;
+  font-size: 1.1rem;
   letter-spacing: 0.12em;
   font-weight: 600;
   color: #fff;
   text-transform: uppercase;
+}
+
+.app-header-subtitle {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: #aaa;
 }
 
 .app-header-title.no-caps {
