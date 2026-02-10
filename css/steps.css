@@ -1,0 +1,49 @@
+/* steps.css */
+
+.steps h1 {
+  font-size: 1.375rem;
+  margin-bottom: 1rem;
+}
+
+.steps-card {
+  background: #111;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.steps-value {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.steps-label {
+  font-size: 0.75rem;
+  color: #aaa;
+}
+
+.steps-controls {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.steps-controls button {
+  flex: 1;
+  height: 2.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: #222;
+  color: #fff;
+  font-size: 0.875rem;
+}
+
+.steps-controls button:disabled {
+  opacity: 0.4;
+}
+
+.steps-target {
+  font-size: 0.75rem;
+  color: #aaa;
+}

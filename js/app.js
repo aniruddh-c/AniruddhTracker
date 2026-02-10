@@ -2,6 +2,7 @@ import { initState } from "./state.js";
 import { navigate, onRouteChange, getNextTab } from "./router.js";
 import { renderHome } from "./screens/home.js";
 import { renderCalories } from "./screens/calories.js";
+import { renderSteps } from "./screens/steps.js";
 
 
 console.log("Aniruddh Tracker loaded");
@@ -24,6 +25,8 @@ if ("serviceWorker" in navigator) {
       screen.innerHTML = renderHome();
     } else if (tab === "calories") {
       screen.innerHTML = renderCalories();
+    } else if (tab === "steps") {
+      screen.innerHTML = renderSteps();
     } else {
       screen.innerHTML = `<h2>${tab.toUpperCase()}</h2>`;
     }
