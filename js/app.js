@@ -32,6 +32,15 @@ if ("serviceWorker" in navigator) {
       screen.innerHTML = renderSteps();
     } else if (tab === "weight") {
       screen.innerHTML = renderWeight();
+    } else if (tab === "settings") {
+      screen.innerHTML = `
+        <section class="settings">
+          <h1>Settings</h1>
+          <p style="color:#aaa;font-size:0.875rem;">
+            Settings screen coming soon
+          </p>
+        </section>
+      `;
     } else {
       screen.innerHTML = `<h2>${tab.toUpperCase()}</h2>`;
     }
@@ -40,6 +49,7 @@ if ("serviceWorker" in navigator) {
       btn.classList.toggle("active", btn.dataset.tab === tab)
     );
   }
+
 
   onRouteChange(render);
 
