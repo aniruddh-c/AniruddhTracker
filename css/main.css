@@ -187,9 +187,15 @@ body {
 /* ---------- APP HEADER ---------- */
 
 .app-header {
-  background: #0f0f0f;
+  background: #222222;
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid #1a1a1a;
+  border-bottom: 1px solid #2a2a2a;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.05);
+}
+
+/* Space between header bar and page content */
+.app-header + section {
+  margin-top: 1rem;
 }
 
 .app-header-content {
