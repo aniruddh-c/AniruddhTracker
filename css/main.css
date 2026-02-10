@@ -233,4 +233,5 @@ body {
 .app-header-title.no-caps {
   text-transform: none;
   letter-spacing: normal;
+  font-size: 1.2rem; /* slightly larger for greeting */
 }
