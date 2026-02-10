@@ -8,6 +8,7 @@ import { getAppDayKey } from "./day.js";
 import { renderWeight } from "./screens/weight.js";
 import { renderFitness } from "./screens/fitness.js";
 import { renderTracker } from "./screens/tracker.js";
+import { renderSettings, bindSettingsEvents } from "./screens/settings.js";
 
 
 console.log("Aniruddh's Tracker loaded");
@@ -34,6 +35,9 @@ function render(tab) {
     screen.innerHTML = renderFitness();
   } else if (tab === "tracker") {
     screen.innerHTML = renderTracker();
+  } else if (tab === "settings") {
+    screen.innerHTML = renderSettings();
+    bindSettingsEvents();
   } else if (tab === "settings") {
     screen.innerHTML = `
       <section class="settings">

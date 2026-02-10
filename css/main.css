@@ -135,3 +135,48 @@ body {
   margin-top: 1rem;
   padding: 0.5rem;
 }
+
+.settings-card {
+  background: #111;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.settings-card h2 {
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+  color: #aaa;
+}
+
+.settings-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.settings-card input {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: #222;
+  color: #fff;
+}
+
+.habit-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.habit-add {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.muted {
+  color: #666;
+  font-size: 0.875rem;
+}
