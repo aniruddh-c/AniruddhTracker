@@ -1,0 +1,55 @@
+/* tracker.css */
+
+.tracker h1 {
+  font-size: 1.375rem;
+  margin-bottom: 1rem;
+}
+
+.calendar-card {
+  background: #111;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.calendar-card h2 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+
+.cal-header {
+  font-size: 0.625rem;
+  text-align: center;
+  color: #777;
+}
+
+.cal-cell {
+  background: #0e0e0e;
+  border-radius: 0.5rem;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cal-cell.empty {
+  background: transparent;
+}
+
+.cal-day {
+  font-size: 0.75rem;
+  color: #aaa;
+}
+
+.cal-mark {
+  font-size: 0.75rem;
+  color: #555;
+  margin-top: 2px;
+}

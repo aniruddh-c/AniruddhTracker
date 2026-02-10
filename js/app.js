@@ -7,6 +7,7 @@ import { updateState } from "./state.js";
 import { getAppDayKey } from "./day.js";
 import { renderWeight } from "./screens/weight.js";
 import { renderFitness } from "./screens/fitness.js";
+import { renderTracker } from "./screens/tracker.js";
 
 
 console.log("Aniruddh's Tracker loaded");
@@ -24,28 +25,30 @@ if ("serviceWorker" in navigator) {
   const screen = document.getElementById("screen");
   const buttons = document.querySelectorAll("#bottom-nav button");
 
-  function render(tab) {
-    if (tab === "home") {
-      screen.innerHTML = renderHome();
-    } else if (tab === "calories") {
-      screen.innerHTML = renderCalories();
-    } else if (tab === "fitness") {
-      screen.innerHTML = renderFitness();
-    } else if (tab === "settings") {
-      screen.innerHTML = `
-        <section class="settings">
-          <h1>Settings</h1>
-          <p style="color:#aaa;font-size:0.875rem;">
-            Settings screen coming soon
-          </p>
-        </section>
-      `;
-    }
-
-    buttons.forEach(btn =>
-      btn.classList.toggle("active", btn.dataset.tab === tab)
-    );
+function render(tab) {
+  if (tab === "home") {
+    screen.innerHTML = renderHome();
+  } else if (tab === "calories") {
+    screen.innerHTML = renderCalories();
+  } else if (tab === "fitness") {
+    screen.innerHTML = renderFitness();
+  } else if (tab === "tracker") {
+    screen.innerHTML = renderTracker();
+  } else if (tab === "settings") {
+    screen.innerHTML = `
+      <section class="settings">
+        <h1>Settings</h1>
+        <p style="color:#aaa;font-size:0.875rem;">
+          Settings screen coming soon
+        </p>
+      </section>
+    `;
   }
+
+  buttons.forEach(btn =>
+    btn.classList.toggle("active", btn.dataset.tab === tab)
+  );
+}
 
 
   onRouteChange(render);
