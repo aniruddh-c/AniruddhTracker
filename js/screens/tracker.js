@@ -11,6 +11,9 @@ const MONTHS = [
   "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
 ];
 
+let habitMonth = null;
+let healthMonth = null;
+
 /*
   Default food calories (same as Home)
 */
@@ -135,20 +138,23 @@ function renderCalendar(type, year, month) {
 /* ---------- MAIN ---------- */
 
 export function renderTracker() {
-  const today = new Date();
+//   const today = new Date();
+  const now = new Date();
 
+    habitMonth ??= { year: now.getFullYear(), month: now.getMonth() };
+    healthMonth ??= { year: now.getFullYear(), month: now.getMonth() };
   return `
     <section class="tracker">
       <h1>Tracker</h1>
 
       <div class="tracker-section">
         <div class="tracker-title">HABIT TRACKER</div>
-        ${renderCalendar("habits", today.getFullYear(), today.getMonth())}
+        ${renderCalendar("habits", habitMonth.year, habitMonth.month)}
       </div>
 
       <div class="tracker-section">
         <div class="tracker-title">HEALTH TRACKER</div>
-        ${renderCalendar("health", today.getFullYear(), today.getMonth())}
+        ${renderCalendar("health", healthMonth.year, healthMonth.month)}
       </div>
     </section>
   `;
@@ -189,4 +195,26 @@ document.addEventListener("pointerdown", e => {
 
 document.addEventListener("pointerup", () => {
   clearTimeout(longPressTimer);
+});
+
+document.addEventListener("click", e => {
+  const btn = e.target.closest(".cal-nav");
+  if (!btn) return;
+
+  const dir = Number(btn.dataset.dir);
+  const type = btn.dataset.cal;
+
+  const target = type === "habits" ? habitMonth : healthMonth;
+
+  target.month += dir;
+
+  if (target.month < 0) {
+    target.month = 11;
+    target.year--;
+  } else if (target.month > 11) {
+    target.month = 0;
+    target.year++;
+  }
+
+  document.getElementById("screen").innerHTML = renderTracker();
 });

@@ -92,16 +92,19 @@
   position: relative;
 }
 
-/* Diagonal failure line */
 .cal-cell.failure::after {
   content: "";
   position: absolute;
-  inset: 6px;
-  border-top: 2px solid #555;
+  width: 140%;
+  height: 2px;
+  background: #555;
+  top: 50%;
+  left: -20%;
   transform: rotate(-45deg);
+  transform-origin: center;
+  pointer-events: none;
 }
 
-/* Dim the date */
 .cal-cell.failure .cal-day {
   color: #555;
 }
