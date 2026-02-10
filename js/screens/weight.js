@@ -6,15 +6,17 @@ import { formatDateForUI } from "../day.js";
 function renderWeightGraph(entries) {
   if (entries.length < 2) {
     return `
-      <div class="weight-graph-placeholder">
-        Add at least 2 entries to see the trend
+      <div class="weight-graph-card">
+        <div class="weight-graph-placeholder">
+          Add at least 2 entries to see the trend
+        </div>
       </div>
     `;
   }
 
-  const width = 300;
-  const height = 160;
-  const padding = 20;
+  const width = 320;
+  const height = 180;
+  const padding = 32;
 
   const values = entries.map(e => e.value);
   const min = Math.min(...values);
@@ -31,41 +33,107 @@ function renderWeightGraph(entries) {
       padding -
       ((e.value - min) / range) * (height - padding * 2);
 
-    return `${x},${y}`;
+    return { x, y, entry: e };
   });
 
-  const labels = entries.map((e, i) => {
-    const x =
-      padding +
-      (i / (entries.length - 1)) * (width - padding * 2);
-
-    return `
-      <text
-        x="${x}"
-        y="${height - 4}"
-        font-size="8"
-        text-anchor="middle"
-        fill="#777"
-      >
-        ${formatDateForUI(e.date)}
-      </text>
-    `;
-  });
+  const polylinePoints = points
+    .map(p => `${p.x},${p.y}`)
+    .join(" ");
 
   return `
-    <svg
-      viewBox="0 0 ${width} ${height}"
-      class="weight-graph"
-      preserveAspectRatio="none"
-    >
-      <polyline
-        fill="none"
-        stroke="#7c4dff"
-        stroke-width="2"
-        points="${points.join(" ")}"
-      />
-      ${labels.join("")}
-    </svg>
+    <div class="weight-graph-card">
+      <svg
+        viewBox="0 0 ${width} ${height}"
+        class="weight-graph"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <!-- Dotted grid -->
+          <pattern
+            id="grid"
+            width="16"
+            height="16"
+            patternUnits="userSpaceOnUse"
+          >
+            <rect width="16" height="16" fill="none" />
+            <circle cx="1" cy="1" r="1" fill="#222" />
+          </pattern>
+        </defs>
+
+        <!-- Background grid -->
+        <rect
+          x="${padding}"
+          y="${padding}"
+          width="${width - padding * 2}"
+          height="${height - padding * 2}"
+          fill="url(#grid)"
+        />
+
+        <!-- Y-axis -->
+        <line
+          x1="${padding}"
+          y1="${padding}"
+          x2="${padding}"
+          y2="${height - padding}"
+          stroke="#333"
+          stroke-width="1"
+        />
+
+        <!-- X-axis -->
+        <line
+          x1="${padding}"
+          y1="${height - padding}"
+          x2="${width - padding}"
+          y2="${height - padding}"
+          stroke="#333"
+          stroke-width="1"
+        />
+
+        <!-- Weight line -->
+        <polyline
+          fill="none"
+          stroke="#7c4dff"
+          stroke-width="2"
+          points="${polylinePoints}"
+        />
+
+        <!-- Data points -->
+        ${points
+          .map(
+            p => `
+          <circle
+            cx="${p.x}"
+            cy="${p.y}"
+            r="4"
+            fill="#7c4dff"
+          >
+            <title>
+              ${formatDateForUI(p.entry.date)} — ${p.entry.value} kg
+            </title>
+          </circle>
+        `
+          )
+          .join("")}
+
+        <!-- Y-axis labels (min / max) -->
+        <text
+          x="4"
+          y="${padding + 4}"
+          font-size="10"
+          fill="#777"
+        >
+          ${max.toFixed(1)} kg
+        </text>
+        <text
+          x="4"
+          y="${height - padding}"
+          font-size="10"
+          fill="#777"
+        >
+          ${min.toFixed(1)} kg
+        </text>
+      </svg>
+    </div>
   `;
 }
 
