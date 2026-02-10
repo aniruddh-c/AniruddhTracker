@@ -153,3 +153,40 @@ export function renderTracker() {
     </section>
   `;
 }
+
+let longPressTimer = null;
+
+document.addEventListener("pointerdown", e => {
+  const cell = e.target.closest(".cal-cell");
+  if (!cell || cell.classList.contains("empty")) return;
+
+  const dayEl = cell.querySelector(".cal-day");
+  if (!dayEl) return;
+
+  const day = Number(dayEl.textContent);
+  const calendar = cell.closest(".calendar-card");
+  if (!calendar) return;
+
+  const type = calendar.previousElementSibling?.textContent
+    ?.toLowerCase()
+    .includes("habit")
+    ? "habits"
+    : "health";
+
+  const monthLabel = calendar.querySelector(".cal-month").textContent;
+  const [monthName, year] = monthLabel.split(" ");
+  const month = MONTHS.indexOf(monthName);
+
+  const dayKey = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+  const todayKey = getAppDayKey();
+  if (dayKey >= todayKey) return; // no future or today
+
+  longPressTimer = setTimeout(() => {
+    openEditModal(dayKey, type);
+  }, 600);
+});
+
+document.addEventListener("pointerup", () => {
+  clearTimeout(longPressTimer);
+});
