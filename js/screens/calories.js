@@ -27,10 +27,14 @@ const DEFAULT_FOODS = {
   }
 };
 
-function renderFoodItem(meal, name, unitCalories, count = 0) {
+function renderFoodItem(meal, name, unitCalories, count = 0, isCustom = false) {
+  const editableAttrs = isCustom
+    ? `class="food-name editable" data-edit-food="${meal}|${name}"`
+    : `class="food-name"`;
+
   return `
     <div class="food">
-      <span class="food-name editable" data-edit-food="${meal}|${name}">${name}</span>
+      <span ${editableAttrs}>${name}</span>
 
       <span class="food-cal">
         ${unitCalories} cal
@@ -44,6 +48,7 @@ function renderFoodItem(meal, name, unitCalories, count = 0) {
     </div>
   `;
 }
+
 
 function renderAddFoodButton(meal) {
   return `
@@ -69,12 +74,12 @@ export function renderCalories() {
   ...Object.entries(defaultFoods).map(([name, unitCalories]) => {
     const count = mealData[name] ?? 0;
     mealTotal += count * unitCalories;
-    return renderFoodItem(meal, name, unitCalories, count);
+    return renderFoodItem(meal, name, unitCalories, count, false);
   }),
   ...customFoods.map(food => {
     const count = mealData[food.name] ?? 0;
     mealTotal += count * food.calories;
-    return renderFoodItem(meal, food.name, food.calories, count);
+    return renderFoodItem(meal, food.name, food.calories, count, true);
   })
 ].join("");
 
@@ -160,34 +165,48 @@ document.addEventListener("click", async e => {
   const data = e.target.dataset?.editFood;
   if (!data) return;
 
-  const [meal, oldName] = data.split("|");
+  const [meal, name] = data.split("|");
   const state = getState();
 
-  const food = state.customFoods[meal]?.find(f => f.name === oldName);
-  if (!food) return; // default foods ignored
-
-  const newName = prompt("Edit food name:", food.name);
-  if (!newName) return;
-
-  const newCalories = Number(
-    prompt("Calories per unit:", food.calories)
+  const index = state.customFoods[meal]?.findIndex(
+    f => f.name === name
   );
-  if (!newCalories || newCalories <= 0) return;
+  if (index === -1) return;
 
-  const confirmDelete = confirm("Delete this food?");
-  if (confirmDelete) {
+  const action = prompt(
+    "Type:\nE → Edit\nD → Delete",
+    "E"
+  );
+  if (!action) return;
+
+  if (action.toUpperCase() === "D") {
+    const confirmDelete = confirm(`Delete "${name}"?`);
+    if (!confirmDelete) return;
+
     await updateState(state => {
-      state.customFoods[meal] = state.customFoods[meal].filter(
-        f => f.name !== oldName
-      );
-    });
-  } else {
-    await updateState(state => {
-      food.name = newName;
-      food.calories = newCalories;
+      state.customFoods[meal].splice(index, 1);
     });
   }
 
+  if (action.toUpperCase() === "E") {
+    const newName = prompt("Food name:", name);
+    if (!newName) return;
+
+    const newCalories = Number(
+      prompt("Calories per unit:", state.customFoods[meal][index].calories)
+    );
+    if (!newCalories || newCalories <= 0) return;
+
+    await updateState(state => {
+      state.customFoods[meal][index] = {
+        name: newName,
+        calories: newCalories
+      };
+    });
+  }
+
+  // Re-render
   navigate("home");
   navigate("calories");
 });
+

@@ -110,7 +110,8 @@
 
 .food-name.editable {
   cursor: pointer;
-  text-decoration: underline;
+  text-decoration: underline dotted;
+  color: #ddd;
 }
 
 .food-name.editable:active {
