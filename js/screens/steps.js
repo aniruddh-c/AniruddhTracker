@@ -1,7 +1,8 @@
 // js/screens/steps.js
 
-import { getState } from "../state.js";
+import { getState, updateState } from "../state.js";
 import { getAppDayKey } from "../day.js";
+import { navigate } from "../router.js";
 
 export function renderSteps() {
   const state = getState();
@@ -23,10 +24,10 @@ export function renderSteps() {
       </div>
 
       <div class="steps-hint">
-        Tap below to enter today’s steps
+        Enter the total number of steps you walked today
       </div>
 
-      <button class="steps-edit-btn">
+      <button class="steps-edit-btn" data-edit-steps="true">
         Enter steps
       </button>
     </section>

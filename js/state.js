@@ -14,7 +14,7 @@ function getDefaultState() {
       name: "Aniruddh",
       resetHour: 3,
       calorieTarget: 2200,
-      stepTarget: 8000,
+      stepTarget: 15000,
       github: {
         connected: false,
         gistId: null

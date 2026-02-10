@@ -3,6 +3,8 @@ import { navigate, onRouteChange, getNextTab } from "./router.js";
 import { renderHome } from "./screens/home.js";
 import { renderCalories } from "./screens/calories.js";
 import { renderSteps } from "./screens/steps.js";
+import { updateState } from "./state.js";
+import { getAppDayKey } from "./day.js";
 
 
 console.log("Aniruddh Tracker loaded");
@@ -75,3 +77,25 @@ if ("serviceWorker" in navigator) {
   // Initial render
   render("home");
 })();
+
+document.addEventListener("click", async e => {
+  if (!e.target.dataset?.editSteps) return;
+
+  const input = prompt("Enter total steps for today:");
+  if (input === null) return;
+
+  const steps = Number(input);
+  if (!Number.isInteger(steps) || steps < 0) {
+    alert("Please enter a valid non-negative number");
+    return;
+  }
+
+  await updateState(state => {
+    const todayKey = getAppDayKey();
+    state.history[todayKey].steps = steps;
+  });
+
+  // Re-render
+  navigate("home");
+  navigate("steps");
+});
