@@ -1,6 +1,6 @@
 // js/router.js
 
-const tabs = ["home", "calories", "steps", "weight", "settings"];
+const tabs = ["home", "calories", "fitness", "settings"];
 let currentTab = "home";
 const listeners = [];
 

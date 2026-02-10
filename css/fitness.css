@@ -1,0 +1,65 @@
+/* fitness.css */
+
+.fitness h1 {
+  font-size: 1.375rem;
+  margin-bottom: 1rem;
+}
+
+.fitness-section {
+  margin-bottom: 2rem;
+}
+
+.fitness-section h2 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Reuse existing cards visually */
+.steps-card,
+.weight-card {
+  background: #111;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.steps-value,
+.weight-value {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.steps-label,
+.weight-label {
+  font-size: 0.75rem;
+  color: #aaa;
+}
+
+.steps-edit-btn,
+.weight-add-btn {
+  width: 100%;
+  height: 3rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: #222;
+  color: #fff;
+  font-size: 0.875rem;
+}
+
+.steps-edit-btn:active,
+.weight-add-btn:active {
+  background: #333;
+}
+
+.weight-graph-placeholder {
+  height: 160px;
+  border-radius: 0.75rem;
+  background: #0e0e0e;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  margin-bottom: 0.75rem;
+}

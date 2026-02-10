@@ -6,6 +6,7 @@ import { renderSteps } from "./screens/steps.js";
 import { updateState } from "./state.js";
 import { getAppDayKey } from "./day.js";
 import { renderWeight } from "./screens/weight.js";
+import { renderFitness } from "./screens/fitness.js";
 
 
 console.log("Aniruddh's Tracker loaded");
@@ -28,10 +29,8 @@ if ("serviceWorker" in navigator) {
       screen.innerHTML = renderHome();
     } else if (tab === "calories") {
       screen.innerHTML = renderCalories();
-    } else if (tab === "steps") {
-      screen.innerHTML = renderSteps();
-    } else if (tab === "weight") {
-      screen.innerHTML = renderWeight();
+    } else if (tab === "fitness") {
+      screen.innerHTML = renderFitness();
     } else if (tab === "settings") {
       screen.innerHTML = `
         <section class="settings">
@@ -41,8 +40,6 @@ if ("serviceWorker" in navigator) {
           </p>
         </section>
       `;
-    } else {
-      screen.innerHTML = `<h2>${tab.toUpperCase()}</h2>`;
     }
 
     buttons.forEach(btn =>
