@@ -135,3 +135,18 @@ document.addEventListener("click", async e => {
   navigate("home");
   navigate("weight");
 });
+
+document.addEventListener("change", async e => {
+  if (!e.target.matches("input[type='checkbox'][data-habit-id]")) return;
+
+  const habitId = e.target.dataset.habitId;
+  const checked = e.target.checked;
+
+  await updateState(state => {
+    const dayKey = getAppDayKey();
+    state.history[dayKey].habits[habitId] = checked;
+  });
+
+  // re-render home
+  navigate("home");
+});

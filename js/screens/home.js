@@ -65,6 +65,45 @@ function computeCaloriesEaten(state, today) {
   return total;
 }
 
+/* ---------- HABITS RENDERING ---------- */
+
+function renderHabits(state, today) {
+  const habits = state.habits || [];
+
+  if (habits.length === 0) {
+    return `
+      <div class="habits-card empty">
+        <div class="habits-empty">No habits defined</div>
+      </div>
+    `;
+  }
+
+  const items = habits.map(habit => {
+    const done = !!today.habits?.[habit.id];
+
+    return `
+      <label class="habit-item ${done ? "done" : ""}">
+        <input
+          type="checkbox"
+          data-habit-id="${habit.id}"
+          ${done ? "checked" : ""}
+        />
+        <span class="habit-name">${habit.name}</span>
+      </label>
+    `;
+  });
+
+  return `
+    <div class="habits-card">
+      <div class="habits-list">
+        ${items.join("")}
+      </div>
+    </div>
+  `;
+}
+
+/* ---------- MAIN HOME ---------- */
+
 export function renderHome() {
   const state = getState();
   const todayKey = Object.keys(state.history).slice(-1)[0];
@@ -111,6 +150,9 @@ export function renderHome() {
         <div class="weight-label">Current Weight</div>
         <div class="weight-value">${latestWeight} kg</div>
       </div>
+
+      <h2 class="habits-title">Habits</h2>
+      ${renderHabits(state, today)}
     </section>
   `;
 }
