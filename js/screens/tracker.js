@@ -11,37 +11,61 @@ const MONTHS = [
   "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
 ];
 
+/*
+  Default food calories (same as Home)
+*/
+const DEFAULT_FOOD_CALORIES = {
+  breakfast: { Eggs: 80, Bread: 70, Milk: 120, Cornflakes: 110 },
+  lunch: { Roti: 100, Dal: 150, Chicken: 250 },
+  snacks: { Biscuits: 100, Fruit: 80 },
+  dinner: { Roti: 100, Dal: 150, Chicken: 250 }
+};
+
 /* ---------- DATE HELPERS ---------- */
 
-// Monday-first calendar matrix
 function getMonthMatrix(year, month) {
   const firstDay = new Date(year, month, 1);
   const startOffset = (firstDay.getDay() + 6) % 7;
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   const cells = [];
-
-  for (let i = 0; i < startOffset; i++) {
-    cells.push(null);
-  }
-
-  for (let d = 1; d <= daysInMonth; d++) {
-    cells.push(d);
-  }
-
+  for (let i = 0; i < startOffset; i++) cells.push(null);
+  for (let d = 1; d <= daysInMonth; d++) cells.push(d);
   return cells;
 }
 
 function dateToKey(year, month, day) {
-  const m = String(month + 1).padStart(2, "0");
-  const d = String(day).padStart(2, "0");
-  return `${year}-${m}-${d}`;
+  return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
 
-/* ---------- HABIT EVALUATION ---------- */
+/* ---------- CALORIE CALC ---------- */
+
+function computeCaloriesEaten(state, day) {
+  if (!day || !day.calories) return 0;
+  let total = 0;
+
+  for (const meal in day.calories) {
+    const mealCounts = day.calories[meal] || {};
+
+    // default foods
+    const defaults = DEFAULT_FOOD_CALORIES[meal] || {};
+    for (const food in defaults) {
+      total += (mealCounts[food] ?? 0) * defaults[food];
+    }
+
+    // custom foods
+    const customFoods = state.customFoods?.[meal] || [];
+    for (const food of customFoods) {
+      total += (mealCounts[food.name] ?? 0) * food.calories;
+    }
+  }
+
+  return total;
+}
+
+/* ---------- EVALUATORS ---------- */
 
 function evaluateHabitDay(state, dayKey, todayKey) {
-  // Not evaluable yet
   if (dayKey >= todayKey) return "neutral";
 
   const habits = state.habits || [];
@@ -51,56 +75,64 @@ function evaluateHabitDay(state, dayKey, todayKey) {
   if (!day || !day.habits) return "failure";
 
   for (const habit of habits) {
-    if (!day.habits[habit.id]) {
-      return "failure";
-    }
+    if (!day.habits[habit.id]) return "failure";
   }
 
   return "success";
 }
 
-/* ---------- CALENDAR ---------- */
+function evaluateHealthDay(state, dayKey, todayKey) {
+  if (dayKey >= todayKey) return "neutral";
 
-function renderHabitCalendar(year, month) {
+  const day = state.history[dayKey];
+  if (!day) return "failure";
+
+  const stepsOk = (day.steps ?? 0) >= state.settings.stepTarget;
+  const caloriesEaten = computeCaloriesEaten(state, day);
+  const caloriesOk = caloriesEaten <= state.settings.calorieTarget;
+
+  return stepsOk && caloriesOk ? "success" : "failure";
+}
+
+/* ---------- CALENDAR RENDER ---------- */
+
+function renderCalendar(type, year, month) {
   const state = getState();
   const todayKey = getAppDayKey();
   const cells = getMonthMatrix(year, month);
 
   return `
-    <div class="calendar-card" data-calendar="habits">
+    <div class="calendar-card">
       <div class="calendar-header">
-        <button class="cal-nav" data-cal="habits" data-dir="-1">‹</button>
-        <div class="cal-month">
-          ${MONTHS[month]} ${year}
-        </div>
-        <button class="cal-nav" data-cal="habits" data-dir="1">›</button>
+        <button class="cal-nav" data-cal="${type}" data-dir="-1">‹</button>
+        <div class="cal-month">${MONTHS[month]} ${year}</div>
+        <button class="cal-nav" data-cal="${type}" data-dir="1">›</button>
       </div>
 
       <div class="calendar-grid">
         ${WEEK_DAYS.map(d => `<div class="cal-header">${d}</div>`).join("")}
 
-        ${cells
-          .map(day => {
-            if (!day) {
-              return `<div class="cal-cell empty"></div>`;
-            }
+        ${cells.map(day => {
+          if (!day) return `<div class="cal-cell empty"></div>`;
 
-            const dayKey = dateToKey(year, month, day);
-            const status = evaluateHabitDay(state, dayKey, todayKey);
+          const dayKey = dateToKey(year, month, day);
+          const status =
+            type === "habits"
+              ? evaluateHabitDay(state, dayKey, todayKey)
+              : evaluateHealthDay(state, dayKey, todayKey);
 
-            return `
-              <div class="cal-cell ${status}">
-                <div class="cal-day">${day}</div>
-              </div>
-            `;
-          })
-          .join("")}
+          return `
+            <div class="cal-cell ${status}">
+              <div class="cal-day">${day}</div>
+            </div>
+          `;
+        }).join("")}
       </div>
     </div>
   `;
 }
 
-/* ---------- MAIN RENDER ---------- */
+/* ---------- MAIN ---------- */
 
 export function renderTracker() {
   const today = new Date();
@@ -111,13 +143,12 @@ export function renderTracker() {
 
       <div class="tracker-section">
         <div class="tracker-title">HABIT TRACKER</div>
-        ${renderHabitCalendar(today.getFullYear(), today.getMonth())}
+        ${renderCalendar("habits", today.getFullYear(), today.getMonth())}
       </div>
 
       <div class="tracker-section">
         <div class="tracker-title">HEALTH TRACKER</div>
-        <!-- Health logic added in next phase -->
-        ${renderHabitCalendar(today.getFullYear(), today.getMonth())}
+        ${renderCalendar("health", today.getFullYear(), today.getMonth())}
       </div>
     </section>
   `;
