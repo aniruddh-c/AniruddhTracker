@@ -90,9 +90,13 @@ function evaluateHealthDay(state, dayKey, todayKey) {
   const day = state.history[dayKey];
   if (!day) return "failure";
 
-  const stepsOk = (day.steps ?? 0) >= state.settings.stepTarget;
   const caloriesEaten = computeCaloriesEaten(state, day);
-  const caloriesOk = caloriesEaten <= state.settings.calorieTarget;
+    const calorieTarget = day.targets?.calorie ?? state.settings.calorieTarget;
+    const stepTarget = day.targets?.steps ?? state.settings.stepTarget;
+
+    const stepsOk = (day.steps ?? 0) >= stepTarget;
+    const caloriesOk = caloriesEaten <= calorieTarget;
+
 
   return stepsOk && caloriesOk ? "success" : "failure";
 }

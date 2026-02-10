@@ -48,7 +48,7 @@ export async function initState() {
 
   // Ensure today exists
   const todayKey = getAppDayKey();
-  if (!state.history[todayKey]) {
+    if (!state.history[todayKey]) {
     state.history[todayKey] = {
       calories: {
         breakfast: {},
@@ -57,7 +57,11 @@ export async function initState() {
         dinner: {}
       },
       steps: 0,
-      habits: {}
+      habits: {},
+      targets: {
+        calorie: state.settings.calorieTarget,
+        steps: state.settings.stepTarget
+      }
     };
   }
 
