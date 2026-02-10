@@ -21,17 +21,16 @@
 .steps-label {
   font-size: 0.75rem;
   color: #aaa;
+}   
+
+.steps-target {
+  font-size: 0.75rem;
+  color: #aaa;
 }
 
-.steps-controls {
-  display: flex;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.steps-controls button {
-  flex: 1;
-  height: 2.75rem;
+.steps-edit-btn {
+  width: 100%;
+  height: 3rem;
   border-radius: 0.75rem;
   border: none;
   background: #222;
@@ -39,11 +38,13 @@
   font-size: 0.875rem;
 }
 
-.steps-controls button:disabled {
-  opacity: 0.4;
+.steps-edit-btn:active {
+  background: #333;
 }
 
-.steps-target {
+.steps-hint {
   font-size: 0.75rem;
   color: #aaa;
+  margin-bottom: 0.75rem;
+  text-align: center;
 }

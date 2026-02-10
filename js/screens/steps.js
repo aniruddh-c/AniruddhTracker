@@ -16,19 +16,19 @@ export function renderSteps() {
       <h1>Steps</h1>
 
       <div class="steps-card">
-        <div class="steps-value">${steps}</div>
+        <div class="steps-value">
+          ${steps} / ${target}
+        </div>
         <div class="steps-label">steps today</div>
       </div>
 
-      <div class="steps-controls">
-        <button disabled>−100</button>
-        <button disabled>+100</button>
-        <button disabled>+500</button>
+      <div class="steps-hint">
+        Tap below to enter today’s steps
       </div>
 
-      <div class="steps-target">
-        Target: ${target} steps
-      </div>
+      <button class="steps-edit-btn">
+        Enter steps
+      </button>
     </section>
   `;
 }
