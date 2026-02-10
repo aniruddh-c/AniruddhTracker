@@ -193,9 +193,14 @@ body {
   box-shadow: 0 1px 0 rgba(255,255,255,0.05);
 }
 
+.app-header {
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
 /* Space between header bar and page content */
 .app-header + section {
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .app-header-content {
